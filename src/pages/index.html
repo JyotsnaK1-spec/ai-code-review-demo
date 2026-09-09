@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AI Code Review Demo</title>
+	</head>
+	<body>
+		<main>
+			<h1>Task list</h1>
+			<form id="task-form">
+				<label for="task">New task</label>
+				<input id="task" name="task" required />
+				<button type="submit">Add task</button>
+			</form>
+			<ul id="tasks"></ul>
+		</main>
+
+		<script>
+			const form = document.querySelector('#task-form');
+			const input = document.querySelector('#task');
+			const list = document.querySelector('#tasks');
+			const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+
+			function renderTasks() {
+				list.innerHTML = tasks.map((task) => `<li>${task}</li>`).join('');
+			}
+
+			form.addEventListener('submit', (event) => {
+				event.preventDefault();
+				tasks.push(input.value);
+				localStorage.setItem('tasks', JSON.stringify(tasks));
+				renderTasks();
+				input.value = '';
+			});
+
+			renderTasks();
+		</script>
+	</body>
+</html>
